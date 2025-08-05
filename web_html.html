@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Tribe - Club Recommender</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/framer-motion@10.18.0/dist/framer-motion.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans overflow-hidden">
+    <!-- Floating background elements -->
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="floating-element float-3"></div>
+    <div class="floating-element float-4"></div>
+    <div class="floating-element float-5"></div>
+    <div class="floating-element float-6"></div>
+    <div class="floating-element float-7"></div>
+    
+    <!-- View All sidebar -->
+    <div id="view-all-sidebar">
+        <button class="close-sidebar">&times;</button>
+        <h2>All Clubs</h2>
+        <div id="club-list-container"></div>
+    </div>
+    
+    <!-- Overlay for sidebar -->
+    <div id="sidebar-overlay"></div>
+
+    <main id="app-container" class="relative w-full h-screen flex items-center justify-center">
+        <!-- Home Screen -->
+        <section id="home-screen" class="text-center transition-opacity duration-700">
+            <h1 style="line-height: 2;" class="slogan text-6xl md:text-8xl text-rose-500">Find Your Tribe.</h1>
+            <p style="line-height: 3; font-size: x-large;" class="text-slate-500 text-lg">Discover clubs and communities that match your passion.</p>
+            <button id="start-matching-btn" class="bg-rose-500 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg shadow-rose-500/30 hover:bg-rose-600 transition-all duration-300 transform hover:scale-105 mt-12">
+                Start Your Club Matching
+            </button>
+        </section>
+
+        <!-- Questionnaire Screen -->
+        <section id="questionnaire-screen" class="absolute inset-0 bg-slate-50 flex items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none overflow-auto py-8">
+            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl w-full max-w-lg mx-4">
+                <h2 class="text-3xl font-bold mb-2 text-slate-800">Tell Us About Yourself</h2>
+                <p class="text-slate-500 mb-8">Select options that best describe you</p>
+                <form id="questionnaire-form" class="space-y-6">
+                    <!-- Question 1: Name -->
+                    <div class="question-container">
+                        <div class="question-title">What's your name?</div>
+                        <input type="text" name="name" placeholder="Enter your name" class="w-full p-4 border border-slate-200 rounded-lg focus:ring-2 focus:ring-rose-400 focus:border-rose-400 outline-none transition" required>
+                    </div>
+                    
+                    <!-- Question 2: Gender -->
+                    <div class="question-container">
+                        <div class="question-title">What's your gender?</div>
+                        <div class="custom-select">
+                            <div class="select-header" id="gender-header">
+                                <span id="gender-value">Select your gender</span>
+                                <i class="arrow" data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="select-options" id="gender-options">
+                                <div class="select-option" data-value="male">Male</div>
+                                <div class="select-option" data-value="female">Female</div>
+                                <div class="select-option" data-value="non-binary">Non-binary</div>
+                                <div class="select-option" data-value="prefer-not-to-say">Prefer not to say</div>
+                            </div>
+                            <input type="hidden" name="gender" id="gender-input" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3: MBTI -->
+                    <div class="question-container">
+                        <div class="question-title">What's your MBTI type?</div>
+                        <div class="custom-select">
+                            <div class="select-header" id="mbti-header">
+                                <span id="mbti-value">Select your MBTI type</span>
+                                <i class="arrow" data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="select-options" id="mbti-options">
+                                <div class="select-option" data-value="intj">INTJ</div>
+                                <div class="select-option" data-value="intp">INTP</div>
+                                <div class="select-option" data-value="entj">ENTJ</div>
+                                <div class="select-option" data-value="entp">ENTP</div>
+                                <div class="select-option" data-value="infj">INFJ</div>
+                                <div class="select-option" data-value="infp">INFP</div>
+                                <div class="select-option" data-value="enfj">ENFJ</div>
+                                <div class="select-option" data-value="enfp">ENFP</div>
+                                <div class="select-option" data-value="istj">ISTJ</div>
+                                <div class="select-option" data-value="isfj">ISFJ</div>
+                                <div class="select-option" data-value="estj">ESTJ</div>
+                                <div class="select-option" data-value="esfj">ESFJ</div>
+                                <div class="select-option" data-value="istp">ISTP</div>
+                                <div class="select-option" data-value="isfp">ISFP</div>
+                                <div class="select-option" data-value="estp">ESTP</div>
+                                <div class="select-option" data-value="esfp">ESFP</div>
+                                <div class="select-option" data-value="dont-know">I don't know</div>
+                            </div>
+                            <input type="hidden" name="mbti" id="mbti-input" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4: Ideal Club Vibe -->
+                    <div class="question-container">
+                        <div class="question-title">Describe your ideal club in one word</div>
+                        <div class="custom-select">
+                            <div class="select-header" id="vibe-header">
+                                <span id="vibe-value">Select club vibe</span>
+                                <i class="arrow" data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="select-options" id="vibe-options">
+                                <div class="select-option" data-value="academic">Academic</div>
+                                <div class="select-option" data-value="creative">Creative</div>
+                                <div class="select-option" data-value="competitive">Competitive</div>
+                                <div class="select-option" data-value="chill">Chill</div>
+                                <div class="select-option" data-value="social">Social</div>
+                                <div class="select-option" data-value="active">Active</div>
+                                <div class="select-option" data-value="supportive">Supportive</div>
+                                <div class="select-option" data-value="fun">Fun</div>
+                                <div class="select-option" data-value="serious">Serious</div>
+                                <div class="select-option" data-value="diverse">Diverse</div>
+                            </div>
+                            <input type="hidden" name="vibe" id="vibe-input" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-rose-500 text-white font-bold py-4 px-8 rounded-lg text-lg shadow-lg shadow-rose-500/30 hover:bg-rose-600 transition-all duration-300 transform hover:scale-105">Find My Clubs</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Card Selection Screen -->
+        <section id="card-screen" class="bg-slate-50 flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none hidden">
+            <div id="card-container" class="relative w-[300px] h-[450px] md:w-[350px] md:h-[525px]">
+                <!-- Cards will be injected here -->
+            </div>
+            <!-- Finish button -->
+            <div class="absolute top-5 right-5">
+                 <button id="finish-btn" class="bg-white text-rose-500 font-semibold py-2 px-6 rounded-full shadow-md hover:bg-rose-50 transition-all">Finish</button>
+            </div>
+            <!-- View all button -->
+            <div class="absolute top-5 left-5">
+                 <button id="view-btn" class="bg-white text-rose-500 font-semibold py-2 px-6 rounded-full shadow-md hover:bg-rose-50 transition-all">View ALL</button>
+            </div>
+            <div class="flex items-center text-slate-400 mt-8 text-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i>
+                <span>Use keyboard arrows or drag to decide</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+            </div>
+            <!-- dislike -->
+             <div class="absolute bottom-5 left-5">
+                <button id="disliked-btn" class="relative w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-amber-50 transition-all transform hover:scale-110">
+                    <i data-lucide="trash-2" class="w-8 h-8 text-amber-500"></i>
+                    <span id="disliked-count" class="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+                        <!-- navigation arrows -->
+             <button id="arrow_dislike">
+                <img src="dislike.svg" alt="dislke" class="arrow-left">
+             </button>
+            
+
+            <button id="arrow_like">
+                <img src="like.svg" alt="like" class="arrow-right">
+            </button>
+
+            <!-- like bin -->
+             <div class="absolute bottom-5 right-5">
+                <button id="liked-btn" class="relative w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-teal-50 transition-all transform hover:scale-110">
+                    <i data-lucide="shopping-cart" class="w-8 h-8 text-teal-500"></i>
+                    <span id="liked-count" class="absolute -top-1 -right-1 bg-teal-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Modals -->
+        <div id="modal-container" class="absolute inset-0 pointer-events-none">
+            <!-- Results Modal -->
+            <div id="results-modal" class="modal-backdrop">
+                <div class="modal-content">
+                <!-- Skip Button Aligned Right -->
+                    <div class="absolute top-4 right-4 z-10">
+                        <button id="club-skip-btn" class="text-xs px-2 py-1 bg-rose-700 text-white rounded hover:bg-slate-900 transition">
+                            Skip
+                        </button>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-4 text-slate-800">Your Top Clubs!</h2>
+                    
+                    <div id="results-list" class="space-y-4 mb-8"></div>
+                    <div class="flex space-x-4">
+                        <button id="restart-btn" class="flex-1 bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Restart</button>
+                        <button id="apply_btn" disabled class="flex-1 bg-slate-200 text-slate-700 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-all">Select one and HERE WE GO!!</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liked/Disliked Modals -->
+            <div id="list-modal" class="modal-backdrop">
+                <div class="modal-content w-full max-w-md">
+                     <div class="flex justify-between items-center mb-4">
+                        <h2 id="list-modal-title" class="text-2xl font-bold text-slate-800"></h2>
+                        <button id="close-list-modal-btn" class="text-slate-400 hover:text-slate-600">
+                             <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    <div id="list-modal-content" class="space-y-2 max-h-[60vh] overflow-y-auto"></div>
+                </div>
+            </div>
+
+            <!-- Detailed Club Info Showcase Modals -->
+            <div id="club-detail-modal" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center transition-opacity justify-center z-50 pointer-events-auto">
+                <div class="bg-white rounded-2xl p-8 w-[90%] max-w-xl shadow-2xl text-slate-800 space-y-4 relative transition-opacity">
+                    <h2 class="text-2xl font-bold mb-4" id="modal-club-name"></h2>
+
+                    <div class="space-y-2 text-base">
+                    <p><strong>📌 门槛要求：</strong> <span id="modal-club-req" class="text-slate-600"></span></p>
+                    <p><strong>🎯 社团活动：</strong> <span id="modal-club-act" class="text-slate-600"></span></p>
+                    <p><strong>🌟 学长评价：</strong> <span id="modal-club-feed" class="text-slate-600"></span></p>
+                    <div>
+                        <p class="mb-1"><strong>🧧 招新群：</strong></p>
+                        <img id="modal-club-qr" src="" alt="QR Code" class="w-40 mx-auto rounded-md shadow border cursor-zoom-in transition hover:scale-105" />
+                    </div>
+                    </div>
+
+
+                    <div class="mt-4 text-center">
+                        <button id="club-detail-close-btn" class="mt-4 bg-rose-700 text-white px-4 py-2 rounded hover:bg-slate-900 transition">
+                        Close
+                        </button>
+                    </div>
+                </div> 
+            </div>
+
+            <!-- QR Code Zoom Modal -->
+            <div id="qr-zoom-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100]">
+            <img id="qr-zoom-image" src="" alt="Zoomed QR" class="w-80 h-80 max-w-[90vw] max-h-[90vh] rounded-lg shadow-lg border-4 border-white" />
+            </div>
+
+            <!-- Skip Club Selection -->
+            <div id="skip-modal" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center transition-opacity justify-center z-50 pointer-events-auto">
+                <div class="bg-white rounded-2xl p-8 w-[90%] max-w-xl shadow-2xl text-slate-800 space-y-4 relative transition-opacity">
+                    <h2 class="text-2xl font-bold mb-4">You've Skipped the Club Selection Process!</h2>
+
+                    <div class="space-y-2 text-base text-center">
+                        You can come back any time you want~~
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button id="skip-close-btn" class="mt-4 bg-rose-700 text-white px-4 py-2 rounded hover:bg-slate-900 transition">
+                        Leave
+                        </button>
+                    </div>
+                </div> 
+            </div> 
+
+        </div>
+    </main>
+
+    <script>
+        
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
